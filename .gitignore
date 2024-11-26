@@ -1,0 +1,101 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg
+*.egg-info
+*.egg-info/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+htmlcov/
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Uploader
+.upload_cache
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv (https://github.com/pypa/pipenv/blob/master/pipenv/patched.py)
+#   it is recommended to include Pipfile.lock in version control. However, in cases where
+#   the Pipfile.lock contains sensitive information, it is recommended that it is ignored
+#   here and only used to install packages in production.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-DeBoer/venv-update
+*.venv
+venv/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# SageMath parsed files
+*.sage.py
