@@ -11,7 +11,7 @@ csp = {
     'script-src': "'self'",
     'style-src': "'self'",
     'img-src': "'self'",
-    'connect-src': "'https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net'"
+    'connect-src': "'https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net/api/data'"
 }
 Talisman(app, content_security_policy=csp)
 load_dotenv(override=True)
@@ -31,7 +31,7 @@ client = AzureOpenAI(
 
 @app.after_request
 def apply_csp(response):
-    response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net'"
+    response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net/api/data'"
     return response
 
 @app.route('/api/data', methods=['GET', 'POST'])
