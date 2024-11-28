@@ -11,7 +11,7 @@ csp = {
     'script-src': "'self' 'unsafe-inline'",
     'style-src': "'self' 'unsafe-inline'",
     'img-src': "'self' data:",
-    'connect-src': "'self'"
+    'connect-src': "'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
 }
 Talisman(app, content_security_policy=csp)
 load_dotenv(override=True)
@@ -31,14 +31,7 @@ client = AzureOpenAI(
 
 @app.after_request
 def apply_csp(response):
-    csp_policy = (
-        "default-src 'self'; "  # Allow content only from the same origin
-        "script-src 'self'; "  # Allow scripts only from the same origin
-        "style-src 'self' 'unsafe-inline'; "  # Allow inline styles (if necessary)
-        "img-src 'self' data:; "  # Allow images from the same origin and data URIs
-        "connect-src 'self'; "  # Allow API requests only to the same origin
-    )
-    response.headers["Content-Security-Policy"] = csp_policy
+    response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
     return response
 
 @app.route('/api/data', methods=['GET', 'POST'])
