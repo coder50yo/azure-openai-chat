@@ -29,6 +29,10 @@ client = AzureOpenAI(
     azure_endpoint=azure_endpoint
 )
 
+@app.route('/')
+def index():
+    return "Hello, World!"
+
 @app.after_request
 def apply_csp(response):
     response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
