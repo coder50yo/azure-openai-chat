@@ -22,6 +22,11 @@ client = AzureOpenAI(
     azure_endpoint=azure_endpoint
 )
 
+@app.after_request
+def add_security_headers(response):
+    response.headers['Content-Security-Policy'] = "script-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net;"
+    return response
+
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
     if request.method == 'POST':
@@ -45,7 +50,6 @@ def chat():
         return jsonify({"response": answer})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)
