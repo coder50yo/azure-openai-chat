@@ -8,10 +8,10 @@ from flask_talisman import Talisman
 app = Flask(__name__)
 csp = {
     'default-src': "'self'",
-    'script-src': "'self' 'unsafe-inline'",
-    'style-src': "'self' 'unsafe-inline'",
-    'img-src': "'self' data:",
-    'connect-src': "'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
+    'script-src': "'self'",
+    'style-src': "'self'",
+    'img-src': "'self'",
+    'connect-src': "'https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net'"
 }
 Talisman(app, content_security_policy=csp)
 load_dotenv(override=True)
@@ -31,7 +31,7 @@ client = AzureOpenAI(
 
 @app.after_request
 def apply_csp(response):
-    response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
+    response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net'"
     return response
 
 @app.route('/api/data', methods=['GET', 'POST'])
