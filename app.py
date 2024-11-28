@@ -3,10 +3,17 @@ from flask import Flask, request, jsonify
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 from flask_cors import CORS
+from flask_talisman import Talisman
 
 app = Flask(__name__)
-
-CORS(app)
+csp = {
+    'default-src': "'self'",
+    'script-src': "'self' 'unsafe-inline'",
+    'style-src': "'self' 'unsafe-inline'",
+    'img-src': "'self' data:",
+    'connect-src': "'self'"
+}
+Talisman(app, content_security_policy=csp)
 load_dotenv(override=True)
 
 # Ensure environment variables are set
@@ -23,11 +30,18 @@ client = AzureOpenAI(
 )
 
 @app.after_request
-def add_security_headers(response):
-    response.headers['Content-Security-Policy'] = "script-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net;"
+def apply_csp(response):
+    csp_policy = (
+        "default-src 'self'; "  # Allow content only from the same origin
+        "script-src 'self'; "  # Allow scripts only from the same origin
+        "style-src 'self' 'unsafe-inline'; "  # Allow inline styles (if necessary)
+        "img-src 'self' data:; "  # Allow images from the same origin and data URIs
+        "connect-src 'self'; "  # Allow API requests only to the same origin
+    )
+    response.headers["Content-Security-Policy"] = csp_policy
     return response
 
-@app.route('/chat', methods=['GET', 'POST'])
+@app.route('/api/data', methods=['GET', 'POST'])
 def chat():
     if request.method == 'POST':
         user_query = request.json.get("query")
