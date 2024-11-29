@@ -15,6 +15,7 @@ csp = {
 }
 Talisman(app, content_security_policy=csp)
 load_dotenv(override=True)
+CORS(app, origins=["https://app.powerbi.com/"], methods=["GET", "POST"])
 
 # Ensure environment variables are set
 api_key = os.getenv("AZURE_OPENAI_API_KEY")
