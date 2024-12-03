@@ -16,11 +16,11 @@ origins = [
 CORS(app, resources={r"/*": {"origins": origins}}, methods=["POST","GET"], supports_credentials=True, allow_headers=["Content-Type", "Accept"])
 
 csp = {
-    'default-src': "'self'",
+    'default-src': "https://app.powerbi.com https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net data: blob: 'unsafe-inline' 'unsafe-eval';",
     'script-src': "'self' https://app.powerbi.com/",
     'style-src': "'self'",
     'img-src': "'self'",
-    'connect-src': "'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
+    'connect-src': "https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net;"
 }
 Talisman(app, content_security_policy=csp)
 
@@ -46,9 +46,11 @@ def index():
 @app.after_request
 def apply_csp(response):
     response.headers["Content-Security-Policy"] = (
-        "default-src 'self'; script-src 'self' https://app.powerbi.com/; "
-        "style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
-        "connect-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net;"
+        "default-src https://app.powerbi.com https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net data: blob: 'unsafe-inline' 'unsafe-eval';",
+        "'self' https://app.powerbi.com/;",
+        "style-src 'self';",
+        "img-src 'self';",
+        "connect-src https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net;"
     )
     return response
 
