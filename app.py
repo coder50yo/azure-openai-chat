@@ -6,16 +6,24 @@ from flask_cors import CORS
 from flask_talisman import Talisman
 
 app = Flask(__name__)
+
+# Define allowed origins
+origins = [
+    "https://app.powerbi.com/",  # Replace with your Power BI domain
+    "https://localhost:8080/"
+]
+CORS(app, resources={r"/*": {"origins": origins}}, supports_credentials=True)
+
 csp = {
     'default-src': "'self'",
-    'script-src': "'self'",
+    'script-src': "'self' https://app.powerbi.com/",
     'style-src': "'self'",
     'img-src': "'self'",
     'connect-src': "'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
 }
 Talisman(app, content_security_policy=csp)
+
 load_dotenv(override=True)
-CORS(app, origins=["https://app.powerbi.com/"], methods=["GET", "POST"])
 
 # Ensure environment variables are set
 api_key = os.getenv("AZURE_OPENAI_API_KEY")
@@ -36,7 +44,11 @@ def index():
 
 @app.after_request
 def apply_csp(response):
-    response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; script-src 'self' https://app.powerbi.com/; "
+        "style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+        "connect-src 'self' https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net;"
+    )
     return response
 
 @app.route('/api/data', methods=['GET', 'POST'])
