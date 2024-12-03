@@ -16,7 +16,7 @@ origins = [
 CORS(app, resources={r"/*": {"origins": origins}}, methods=["POST","GET"], supports_credentials=True, allow_headers=["Content-Type", "Accept"])
 
 csp = {
-    'default-src': "https://app.powerbi.com https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net data: blob: 'unsafe-inline' 'unsafe-eval';",
+    'default-src': "https://app.powerbi.com https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net data: blob: 'unsafe-inline' 'unsafe-eval'",
     'script-src': "'self' https://app.powerbi.com/",
     'style-src': "'self'",
     'img-src': "'self'",
@@ -47,7 +47,7 @@ def index():
 def apply_csp(response):
     response.headers["Content-Security-Policy"] = (
         "default-src https://app.powerbi.com https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net data: blob: 'unsafe-inline' 'unsafe-eval';",
-        "'self' https://app.powerbi.com/;",
+        "script-src 'self' https://app.powerbi.com/;",
         "style-src 'self';",
         "img-src 'self';",
         "connect-src https://azure-openai-chat-eyb9fugmhahehmcp.canadacentral-01.azurewebsites.net;"
