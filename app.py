@@ -12,7 +12,8 @@ origins = [
     "https://app.powerbi.com/",  # Replace with your Power BI domain
     "https://localhost:8080/"
 ]
-CORS(app, resources={r"/*": {"origins": origins}}, supports_credentials=True)
+
+CORS(app, resources={r"/*": {"origins": origins}}, methods=["POST","GET"], supports_credentials=True, allow_headers=["Content-Type", "Accept"])
 
 csp = {
     'default-src': "'self'",
