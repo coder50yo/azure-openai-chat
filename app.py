@@ -10,7 +10,7 @@ app = Flask(__name__)
 # Define allowed origins
 origins = [
     "https://app.powerbi.com/",  # Replace with your Power BI domain
-    "https://localhost:8080/"
+    "http://localhost/"
 ]
 
 CORS(app, resources={r"/*": {"origins": origins}}, methods=["POST","GET"], supports_credentials=True, allow_headers=["Content-Type", "Accept"])
